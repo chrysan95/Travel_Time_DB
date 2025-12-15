@@ -1,6 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 from datetime import datetime, timezone, timedelta
 
 # Define WIB timezone
