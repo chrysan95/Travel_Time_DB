@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # intinya collect data every 30 minutes
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -13,26 +13,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: "3.10"
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+    - run: pip install -r requirements.txt
 
     - name: Run data collector
       env:
         ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
-      run: |
-        python collect_data.py
+      run: python collect_data.py
 
     - name: Commit dataset
       run: |
+        mkdir -p data
+        touch data/.gitkeep
         git config user.name "github-actions"
         git config user.email "actions@github.com"
         git add data/
